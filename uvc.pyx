@@ -1,5 +1,5 @@
 '''
-(*)~----------------------------------------------------------------------------------
+(zwn)~----------------------------------------------------------------------------------
  Pupil - eye tracking platform
  Copyright (C) 2012-2015  Pupil Labs
 
@@ -10,6 +10,7 @@
 
 import cython
 from libc.string cimport memset
+from libc.stdint cimport uint8_t
 cimport cuvc as uvc
 cimport cturbojpeg as turbojpeg
 cimport numpy as np
@@ -378,6 +379,7 @@ def device_list():
 
     devices = []
     cdef int idx = 0
+    cdef uint8_t ports[7];
     while True:
         dev = dev_list[idx]
         if dev == NULL:
@@ -389,6 +391,8 @@ def device_list():
             idProduct,idVendor = desc.idProduct,desc.idVendor
             device_address = uvc.uvc_get_device_address(dev)
             bus_number = uvc.uvc_get_bus_number(dev)
+            ret = uvc.uvc_get_device_port_numbers(dev, ports, len(ports))
+            bus_ports = list(ports[:ret])
             devices.append({'name':_to_str(product),
                             'manufacturer':_to_str(manufacturer),
                             'serialNumber':_to_str(serialNumber),
@@ -396,6 +400,7 @@ def device_list():
                             'idVendor':idVendor,
                             'device_address':device_address,
                             'bus_number':bus_number,
+                            'bus_ports':bus_ports,
                             'uid':'%s:%s'%(bus_number,device_address)})
 
         uvc.uvc_free_device_descriptor(desc)

@@ -9,6 +9,7 @@
 '''
 
 
+from libc.stdint cimport (uint8_t, int8_t, uint16_t, int16_t, uint32_t, int32_t, int64_t, uint64_t)
 from libc.string cimport const_char
 
 IF UNAME_SYSNAME == "Windows":
@@ -73,14 +74,6 @@ cdef enum ctrl_bit_mask_input_terminal:
 
 
 cdef extern from  "libuvc/libuvc.h":
-
-    ctypedef int uint8_t
-    ctypedef int uint16_t
-    ctypedef int int16_t
-    ctypedef int uint16_t
-    ctypedef int uint32_t
-    ctypedef int int32_t
-    ctypedef int uint64_t
 
     cdef enum uvc_error:
         UVC_SUCCESS
@@ -370,6 +363,7 @@ cdef extern from  "libuvc/libuvc.h":
 
     int uvc_get_bus_number(uvc_device_t *dev)
     int uvc_get_device_address(uvc_device_t *dev)
+    int uvc_get_device_port_numbers(uvc_device_t *dev, uint8_t *port_numbers, int port_numbers_len)
 
     uvc_error_t uvc_find_device( uvc_context_t *ctx, uvc_device_t **dev, int vid, int pid, const char *sn)
 
