@@ -391,7 +391,7 @@ def device_list():
             idProduct,idVendor = desc.idProduct,desc.idVendor
             device_address = uvc.uvc_get_device_address(dev)
             bus_number = uvc.uvc_get_bus_number(dev)
-            ret = uvc.uvc_get_device_port_numbers(dev, ports, len(ports))
+            ret = uvc.uvc_get_device_port_numbers(dev, ports, 7)
             bus_ports = list(ports[:ret])
             devices.append({'name':_to_str(product),
                             'manufacturer':_to_str(manufacturer),
