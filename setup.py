@@ -9,8 +9,8 @@
 """
 import platform
 import numpy
-from distutils.core import setup
-from distutils.extension import Extension
+from setuptools import setup
+from setuptools.extension import Extension
 from Cython.Build import cythonize
 import glob
 
@@ -76,4 +76,5 @@ setup(
     description="Usb Video Class Device bindings with format conversion tool.",
     ext_modules=cythonize(extensions),
     data_files=plat_data_files,
+    setup_requires=['wheel'],
 )
